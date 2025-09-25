@@ -16,6 +16,21 @@
       "options": ["HR", "IT", "Finance"],
       "required": true
     },
+     {
+      "id": "password",
+      "type": "password",
+      "label": "Password",
+      "placeholder": "Enter your password",
+      "required": true
+      
+    },
+     {
+      "id": "email",
+      "type": "email",
+      "label": "Email",
+      "placeholder": "xyz@email.com",
+      "required": true
+    },
     {
       "id": "joiningDate",
       "type": "date",
@@ -37,7 +52,9 @@
       "id": "textArea",
       "type": "textarea",
       "label": "About You",
-      "placeholder": "Write something..."
+      "placeholder": "Write something... about you"
     }
+   
   ]
 }
+

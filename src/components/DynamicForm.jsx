@@ -3,7 +3,8 @@ import axios from "axios";
 import useFormStore from "../store/Formstore";
 
 const DynamicForm = () => {
-  const { schema, values, errors, setFieldValue, validateField } = useFormStore();
+  const { schema, values, errors, setFieldValue, validateField } =
+    useFormStore();
 
   if (!schema) return <p className="text-center mt-4">Loading form...</p>;
 
@@ -16,12 +17,15 @@ const DynamicForm = () => {
     validateAllFields();
 
     if (Object.keys(errors).length > 0) {
-      alert("Please fix errors !");
+      alert("Please fix errors!");
       return;
     }
 
     try {
-      const response = await axios.post("http://localhost:5000/submitForm", values);
+      const response = await axios.post(
+        "http://localhost:5000/submitForm",
+        values
+      );
       console.log("Server Response:", response.data);
       alert("Form submitted successfully!");
     } catch (error) {
@@ -42,7 +46,8 @@ const DynamicForm = () => {
         {schema.fields.map((field) => {
           const isVisible =
             !field.visibilityCondition ||
-            values[field.visibilityCondition.field] === field.visibilityCondition.value;
+            values[field.visibilityCondition.field] ===
+              field.visibilityCondition.value;
 
           if (!isVisible) return null;
 
@@ -59,6 +64,30 @@ const DynamicForm = () => {
                   onBlur={() => validateField(field.id)}
                   className="form-control"
                 />
+              )}
+
+              {field.type === "password" && (
+                <input
+                  type="password"
+                  placeholder={field.placeholder}
+                  value={values[field.id] || ""}
+                  onChange={(e) => setFieldValue(field.id, e.target.value)}
+                  onBlur={() => validateField(field.id)}
+                  className="form-control"
+                />
+              )}
+
+              {field.type === "email" && (
+                <>
+                  <input
+                    type="email"
+                    placeholder={field.placeholder}
+                    value={values[field.id] || ""}
+                    onChange={(e) => setFieldValue(field.id, e.target.value)}
+                    onBlur={() => validateField(field.id)}
+                    className="form-control"
+                  />
+                </>
               )}
 
               {field.type === "dropdown" && (
@@ -86,42 +115,44 @@ const DynamicForm = () => {
                   className="form-control"
                 />
               )}
+
               {field.type === "radio" && (
-  <div className="d-flex justify-content-center flex-wrap">
-    {field.options?.map((opt) => (
-      <div className="form-check me-3" key={opt}>
-        <input
-          type="radio"
-          name={field.id}
-          value={opt}
-          checked={values[field.id] === opt}
-          onChange={(e) => setFieldValue(field.id, e.target.value)}
-          onBlur={() => validateField(field.id)}
-          className="form-check-input"
-          id={`${field.id}_${opt}`}
-        />
-        <label
-          htmlFor={`${field.id}_${opt}`}
-          className="form-check-label"
-        >
-          {opt}
-        </label>
-      </div>
-    ))}
-  </div>
-)}
+                <div className="d-flex justify-content-center flex-wrap">
+                  {field.options?.map((opt) => (
+                    <div className="form-check me-3" key={opt}>
+                      <input
+                        type="radio"
+                        name={field.id}
+                        value={opt}
+                        checked={values[field.id] === opt}
+                        onChange={(e) =>
+                          setFieldValue(field.id, e.target.value)
+                        }
+                        onBlur={() => validateField(field.id)}
+                        className="form-check-input"
+                        id={`${field.id}_${opt}`}
+                      />
+                      <label
+                        htmlFor={`${field.id}_${opt}`}
+                        className="form-check-label"
+                      >
+                        {opt}
+                      </label>
+                    </div>
+                  ))}
+                </div>
+              )}
 
-{field.type === "textarea" && (
-  <textarea
-    placeholder={field.placeholder}
-    value={values[field.id] || ""}
-    onChange={(e) => setFieldValue(field.id, e.target.value)}
-    onBlur={() => validateField(field.id)}
-    className="form-control text-center"
-    rows="3"
-  />
-)}
-
+              {field.type === "textarea" && (
+                <textarea
+                  placeholder={field.placeholder}
+                  value={values[field.id] || ""}
+                  onChange={(e) => setFieldValue(field.id, e.target.value)}
+                  onBlur={() => validateField(field.id)}
+                  className="form-control text-center"
+                  rows="3"
+                />
+              )}
 
               {errors[field.id] && (
                 <div className="text-danger small mt-1">{errors[field.id]}</div>
@@ -134,15 +165,14 @@ const DynamicForm = () => {
           Submit
         </button>
         <button
-  type="button"
-  className="btn btn-secondary w-100 mt-2"
-  onClick={() => {
-    schema.fields.forEach((field) => setFieldValue(field.id, ""));
-    resetForm(); 
-  }}
->
-  Reset
-</button>
+          type="button"
+          className="btn btn-secondary w-100 mt-2"
+          onClick={() => {
+            schema.fields.forEach((field) => setFieldValue(field.id, ""));
+          }}
+        >
+          Reset
+        </button>
       </form>
     </div>
   );
