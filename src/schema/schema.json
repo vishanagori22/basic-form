@@ -1,0 +1,43 @@
+{
+  "id": "employeeForm",
+  "title": "Employee Onboarding",
+  "fields": [
+    {
+      "id": "fullName",
+      "type": "text",
+      "label": "Full Name",
+      "placeholder": "Enter your full name",
+      "required": true
+    },
+    {
+      "id": "department",
+      "type": "dropdown",
+      "label": "Department",
+      "options": ["HR", "IT", "Finance"],
+      "required": true
+    },
+    {
+      "id": "joiningDate",
+      "type": "date",
+      "label": "Joining Date",
+      "required": true,
+      "visibilityCondition": {
+        "field": "department",
+        "value": "HR"
+      }
+    },
+    {
+      "id": "gender",
+      "type": "radio",
+      "label": "Gender",
+      "options": ["Male", "Female", "Other"],
+      "required": true
+    },
+    {
+      "id": "textArea",
+      "type": "textarea",
+      "label": "About You",
+      "placeholder": "Write something..."
+    }
+  ]
+}
