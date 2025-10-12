@@ -44,12 +44,23 @@ const DynamicForm = () => {
         <h2 className="text-center mb-4">{schema.title}</h2>
 
         {schema.fields.map((field) => {
-          const isVisible =
-            !field.visibilityCondition ||
-            values[field.visibilityCondition.field] ===
-              field.visibilityCondition.value;
+          const condition = field.visibilityCondition;
+          let isVisible = true;
+
+          if (condition) {
+            const targetValue = values[condition.field];
+            if (condition.value)
+              isVisible = targetValue === condition.value;
+            else if (condition.valueIn)
+              isVisible = condition.valueIn.includes(targetValue);
+          }
 
           if (!isVisible) return null;
+
+          let options = field.options || [];
+          if (field.optionsMap && values.country) {
+            options = field.optionsMap[values.country] || [];
+          }
 
           return (
             <div key={field.id} className="mb-3">
@@ -78,27 +89,30 @@ const DynamicForm = () => {
               )}
 
               {field.type === "email" && (
-                <>
-                  <input
-                    type="email"
-                    placeholder={field.placeholder}
-                    value={values[field.id] || ""}
-                    onChange={(e) => setFieldValue(field.id, e.target.value)}
-                    onBlur={() => validateField(field.id)}
-                    className="form-control"
-                  />
-                </>
+                <input
+                  type="email"
+                  placeholder={field.placeholder}
+                  value={values[field.id] || ""}
+                  onChange={(e) => setFieldValue(field.id, e.target.value)}
+                  onBlur={() => validateField(field.id)}
+                  className="form-control"
+                />
               )}
 
               {field.type === "dropdown" && (
                 <select
                   value={values[field.id] || ""}
-                  onChange={(e) => setFieldValue(field.id, e.target.value)}
+                  onChange={(e) => {
+                    setFieldValue(field.id, e.target.value);
+                    if (field.id === "country") {
+                      setFieldValue("state", "");
+                    }
+                  }}
                   onBlur={() => validateField(field.id)}
                   className="form-select"
                 >
                   <option value="">Select...</option>
-                  {field.options?.map((opt) => (
+                  {options.map((opt) => (
                     <option key={opt} value={opt}>
                       {opt}
                     </option>

@@ -16,15 +16,14 @@
       "options": ["HR", "IT", "Finance"],
       "required": true
     },
-     {
+    {
       "id": "password",
       "type": "password",
       "label": "Password",
       "placeholder": "Enter your password",
       "required": true
-      
     },
-     {
+    {
       "id": "email",
       "type": "email",
       "label": "Email",
@@ -48,13 +47,29 @@
       "options": ["Male", "Female", "Other"],
       "required": true
     },
+    
+{
+      "id": "state",
+      "type": "dropdown",
+      "label": "State",
+      "optionsMap": {
+        "India": ["Gujarat", "Madhya Pradesh", "Rajasthan", "Delhi"],
+        "USA": ["California", "Texas", "New York", "Washington"],
+        "Canada": [ "Quebec", "British Columbia"]
+      },
+      "required": true,
+      "visibilityCondition": {
+        "field": "country",
+        "valueIn": ["India", "USA", "Canada"]
+      }
+    },
+    
     {
-      "id": "textArea",
+      "id": "about",
       "type": "textarea",
-      "label": "About You",
-      "placeholder": "Write something... about you"
+      "label": "About",
+      "placeholder": "write something..... about yourself",
+      "required": true
     }
-   
   ]
 }
-
