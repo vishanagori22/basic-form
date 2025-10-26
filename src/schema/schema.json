@@ -47,15 +47,21 @@
       "options": ["Male", "Female", "Other"],
       "required": true
     },
-    
-{
+    {
+      "id": "country",
+      "type": "dropdown",
+      "label": "Country",
+      "options": ["India", "USA", "Canada", "Australia"],
+      "required": true
+    },
+    {
       "id": "state",
       "type": "dropdown",
       "label": "State",
       "optionsMap": {
         "India": ["Gujarat", "Madhya Pradesh", "Rajasthan", "Delhi"],
         "USA": ["California", "Texas", "New York", "Washington"],
-        "Canada": [ "Quebec", "British Columbia"]
+        "Canada": ["Quebec", "British Columbia"]
       },
       "required": true,
       "visibilityCondition": {
@@ -63,12 +69,11 @@
         "valueIn": ["India", "USA", "Canada"]
       }
     },
-    
     {
       "id": "about",
       "type": "textarea",
       "label": "About",
-      "placeholder": "write something..... about yourself",
+      "placeholder": "Write something about yourself...",
       "required": true
     }
   ]
